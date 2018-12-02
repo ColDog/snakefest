@@ -32,6 +32,9 @@ spec:
       - name: snake
         image: coldog/snakefest:COMMIT
         imagePullPolicy: Always
+        env:
+        - name: REDIS_URL
+          value: snakefest-redis:6379
         ports:
         - containerPort: 80
         livenessProbe:
@@ -40,3 +43,39 @@ spec:
             port: 80
           initialDelaySeconds: 3
           periodSeconds: 3
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: snakefest-redis
+  namespace: default
+spec:
+  ports:
+  - port: 6379
+    targetPort: 6379
+  selector:
+    app: snakefest-redis
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snakefest-redis
+  namespace: default
+  labels:
+    app: snakefest-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snakefest-redis
+  template:
+    metadata:
+      labels:
+        app: snakefest-redis
+    spec:
+      containers:
+      - name: snake
+        image: redis:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 6379
