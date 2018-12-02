@@ -1,1 +1,0 @@
-function move() { return "up" }

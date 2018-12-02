@@ -1,4 +1,3 @@
-
 const baseUrl = `http://${window.location.hostname}`;
 const engineUrl = "https://engine.battlesnake.io";
 const boardUrl = "https://board.battlesnake.io";
@@ -10,11 +9,21 @@ const boardUrl = "https://board.battlesnake.io";
  * @param code
  */
 export async function save(id: string, code: string) {
-  await fetch(`/apps/${id}/save`, {
+  await fetch(`/api/${id}/save`, {
     body: code,
     method: "POST",
     headers: { "content-type": "text/plain" }
   });
+}
+
+/**
+ * Get logs for the current function.
+ *
+ * @param id
+ */
+export async function logs(id: string) {
+  const res = await fetch(`/api/${id}/logs`);
+  return res.text();
 }
 
 /**
@@ -43,5 +52,5 @@ export async function run(id: string) {
 }
 
 export function snakeUrl(id: string) {
-  return `${baseUrl}/apps/${id}`
+  return `${baseUrl}/api/${id}`;
 }

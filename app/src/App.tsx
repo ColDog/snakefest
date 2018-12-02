@@ -1,23 +1,33 @@
 import React, { Component } from "react";
-import MonacoEditor from "react-monaco-editor";
+import AceEditor from "react-ace";
+
 import { v4 as uuid } from "uuid";
 import * as api from "./api";
 
-import './App.css';
+import "brace/mode/javascript";
+import "brace/theme/monokai";
+import "./App.css";
 
 class App extends Component {
   frame: any = null;
   state = {
     code: "",
+    logs: "",
     id: uuid().toString(),
     gameUrl: encodeURI(
       "https://board.battlesnake.io?engine=https://engine.battlesnake.io&game=26f7016b-e743-43bf-b4d8-8aa6094d6c22"
     )
   };
 
-  editorDidMount = (editor: any) => {
-    editor.focus();
+  pollLogs = async () => {
+    const { id } = this.state;
+    const logs = await api.logs(id);
+    this.setState({ logs });
   };
+
+  componentDidMount() {
+    setInterval(this.pollLogs, 1000);
+  }
 
   onChange = (code: string) => {
     this.setState({ code });
@@ -41,7 +51,7 @@ class App extends Component {
   };
 
   render() {
-    const { id, code, gameUrl } = this.state;
+    const { id, code, gameUrl, logs } = this.state;
 
     return (
       <div className="App">
@@ -53,22 +63,17 @@ class App extends Component {
         <div className="App-row">
           <div className="App-col App-col-editor">
             <div>
-              <button className="light" onClick={this.onSave}>Save</button>
+              <button className="light" onClick={this.onSave}>
+                Save
+              </button>
             </div>
-            <MonacoEditor
+            <AceEditor
               width="100%"
               height="100%"
               value={code}
-              options={{
-                automaticLayout: true,
-                minimap: {
-                  enabled: false,
-                }
-              }}
+              mode="javascript"
+              theme="monokai"
               onChange={this.onChange}
-              editorDidMount={this.editorDidMount}
-              language="javascript"
-              theme="vs-dark"
             />
           </div>
           <div className="App-col App-col-game">
@@ -78,15 +83,22 @@ class App extends Component {
             </div>
             {gameUrl && (
               <iframe
+                className="App-game"
                 ref={ref => {
                   this.frame = ref;
                 }}
-                height="100%"
+                height="400"
                 width="100%"
                 frameBorder="0"
                 src={gameUrl}
               />
             )}
+
+            <div className="App-game-logs">
+              <pre>
+                <code>{logs}</code>
+              </pre>
+            </div>
           </div>
         </div>
       </div>
