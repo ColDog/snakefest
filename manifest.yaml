@@ -7,7 +7,7 @@ spec:
   type: LoadBalancer
   ports:
   - port: 80
-    targetPort: 80
+    targetPort: 8080
   selector:
     app: snakefest
 ---
@@ -36,11 +36,11 @@ spec:
         - name: REDIS_URL
           value: snakefest-redis:6379
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         livenessProbe:
           httpGet:
-            path: /
-            port: 80
+            path: /app/
+            port: 8080
           initialDelaySeconds: 3
           periodSeconds: 3
 ---

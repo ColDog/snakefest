@@ -11,12 +11,10 @@ import "./App.css";
 class App extends Component {
   frame: any = null;
   state = {
-    code: "",
+    code: localStorage.getItem("gameCode") || "",
     logs: "",
-    id: uuid().toString(),
-    gameUrl: encodeURI(
-      "https://board.battlesnake.io?engine=https://engine.battlesnake.io&game=26f7016b-e743-43bf-b4d8-8aa6094d6c22"
-    )
+    id: localStorage.getItem("gameId") || uuid().toString(),
+    gameUrl: null
   };
 
   pollLogs = async () => {
@@ -31,6 +29,7 @@ class App extends Component {
 
   onChange = (code: string) => {
     this.setState({ code });
+    localStorage.setItem("gameCode", code);
   };
 
   onSave = async () => {
