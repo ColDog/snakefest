@@ -3,17 +3,17 @@ import MonacoEditor from "react-monaco-editor";
 import { v4 as uuid } from "uuid";
 import * as api from "./api";
 
-const styles = {
-  panel: {
-    width: "50%"
-  },
-  container: {
-    height: "100%"
-  }
-};
+import './App.css';
 
 class App extends Component {
-  state = { code: "", id: uuid().toString(), gameUrl: null };
+  frame: any = null;
+  state = {
+    code: "",
+    id: uuid().toString(),
+    gameUrl: encodeURI(
+      "https://board.battlesnake.io?engine=https://engine.battlesnake.io&game=26f7016b-e743-43bf-b4d8-8aa6094d6c22"
+    )
+  };
 
   editorDidMount = (editor: any) => {
     editor.focus();
@@ -34,31 +34,61 @@ class App extends Component {
     this.setState({ gameUrl });
   };
 
+  onReload = () => {
+    if (this.frame) {
+      this.frame.location.reload();
+    }
+  };
+
   render() {
-    const { code, gameUrl } = this.state;
+    const { id, code, gameUrl } = this.state;
 
     return (
-      <div style={styles.container}>
-        <header>
+      <div className="App">
+        <header className="App-header">
           <h1>SnakeFest</h1>
+          <code>{api.snakeUrl(id)}</code>
         </header>
 
-        <div>
-          <button>Save</button>
-          <button>Play</button>
+        <div className="App-row">
+          <div className="App-col App-col-editor">
+            <div>
+              <button className="light" onClick={this.onSave}>Save</button>
+            </div>
+            <MonacoEditor
+              width="100%"
+              height="100%"
+              value={code}
+              options={{
+                automaticLayout: true,
+                minimap: {
+                  enabled: false,
+                }
+              }}
+              onChange={this.onChange}
+              editorDidMount={this.editorDidMount}
+              language="javascript"
+              theme="vs-dark"
+            />
+          </div>
+          <div className="App-col App-col-game">
+            <div className="App-col-game-header">
+              <button onClick={this.onPlay}>Play</button>
+              <button onClick={this.onPlay}>Replay</button>
+            </div>
+            {gameUrl && (
+              <iframe
+                ref={ref => {
+                  this.frame = ref;
+                }}
+                height="100%"
+                width="100%"
+                frameBorder="0"
+                src={gameUrl}
+              />
+            )}
+          </div>
         </div>
-
-        <div style={styles.panel}>
-          <MonacoEditor
-            width="100%"
-            height="70vh"
-            value={code}
-            onChange={this.onChange}
-            editorDidMount={this.editorDidMount}
-          />
-        </div>
-
-        <div>{gameUrl && <iframe src={gameUrl} />}</div>
       </div>
     );
   }

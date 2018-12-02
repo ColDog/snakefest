@@ -5,30 +5,26 @@ run:
 .PHONY: run
 
 build:
-	# (cd api && yarn build)
-	# (cd app && yarn build)
+	(cd api && yarn install && yarn build)
+	(cd app && yarn install && yarn build)
 	docker build -t coldog/snakefest:$(COMMIT) .
 .PHONY: build
 
 push:
-	docker push -t coldog/snakefest:$(COMMIT) .
+	docker push coldog/snakefest:$(COMMIT)
 .PHONY: build
 
-render:
-	@cat manifest.yaml | sed "s/COMMIT/$(COMMIT)/"
-.PHONY: render
-
 deploy:
-	make render | kubectl apply -f -
+	cat manifest.yaml | sed "s/COMMIT/$(COMMIT)/" | kubectl apply -f -
 .PHONY: deploy
 
 delete:
-	make render | kubectl delete -f -
+	cat manifest.yaml | sed "s/COMMIT/$(COMMIT)/" | kubectl delete -f -
 .PHONY: delete
 
 external-ip:
 	@kubectl get svc/snakefest -o json | jq -r '.status.loadBalancer.ingress[0].ip'
 .PHONY: external-ip
 
-release: build deploy external-ip
+release: build push deploy external-ip
 .PHONY: release

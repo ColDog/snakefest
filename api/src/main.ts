@@ -51,5 +51,14 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 app.use(serve("public"));
 
-console.log("listening on", port)
-app.listen(port);
+console.log("listening on", port);
+const server = app.listen(port);
+
+function shutdown() {
+  server.close(() => {
+    process.exit(0);
+  });
+}
+
+process.on("SIGTERM", shutdown);
+process.on("SIGINT", shutdown);

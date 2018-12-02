@@ -1,0 +1,65 @@
+.App {
+  height: 90%;
+  padding: 20px;
+}
+
+.App-header {
+  text-align: center;
+  padding: 20px;
+}
+
+.App-header h1 {
+  margin: 0;
+}
+
+.App-row {
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.App-col {
+  flex: 1;
+  width: 50%;
+  flex-basis: 500px;
+}
+
+.App-col-editor {
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.App-col-game {
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.App-col-game-header {
+  padding: 5px;
+  background-color: #eee;
+  border-radius: 10px;
+}
+
+button {
+  font-size: 1em;
+  display: inline-block;
+  border: thin solid #aaa;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 0.4em;
+  cursor: pointer;
+  text-align: center;
+  transition-duration: 0.1s;
+  transition-timing-function: linear;
+  background-color: inherit;
+}
+
+button:hover,
+button:focus {
+  opacity: 0.8;
+}
+
+.light {
+  color: #eee;
+}
