@@ -1,0 +1,42 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: snakefest
+  namespace: default
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: snakefest
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snakefest
+  namespace: default
+  labels:
+    app: snakefest
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: snakefest
+  template:
+    metadata:
+      labels:
+        app: snakefest
+    spec:
+      containers:
+      - name: snake
+        image: coldog/snakefest:COMMIT
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 3

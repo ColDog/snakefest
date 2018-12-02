@@ -1,0 +1,1 @@
+function move() { return "up" }
