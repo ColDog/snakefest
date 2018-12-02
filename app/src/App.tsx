@@ -30,6 +30,7 @@ class App extends Component {
   onChange = (code: string) => {
     this.setState({ code });
     localStorage.setItem("gameCode", code);
+    localStorage.setItem("gameId", this.state.id);
   };
 
   onSave = async () => {
