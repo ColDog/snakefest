@@ -29,6 +29,10 @@
   flex-wrap: wrap;
 }
 
+.App-learn {
+  padding: 20px;
+}
+
 .App-col {
   flex: 1;
   width: 50%;
@@ -53,12 +57,13 @@
 }
 
 .App-game-logs {
-  min-height: 500px;
+  height: 500px;
   width: 100%;
   color: #eee;
   position: absolute;
   bottom: 0;
   background-color: #24282a;
+  overflow-y: scroll;
 }
 
 .App-game-logs-header {
@@ -68,7 +73,8 @@
 }
 
 .App-game-logs-console {
-  padding: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .App-col-header-light {

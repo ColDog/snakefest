@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import AceEditor from "react-ace";
-
+import Learn from './Learn';
 import { v4 as uuid } from "uuid";
 import * as api from "./api";
 
@@ -66,7 +66,9 @@ class App extends Component {
               <p>Learn</p>
             </div>
 
-            <div>Tutorials and stuff.</div>
+            <div className="App-learn">
+              <Learn />
+            </div>
           </div>
 
           <div className="App-col App-col-editor">
@@ -78,6 +80,7 @@ class App extends Component {
             <AceEditor
               width="100%"
               height="100%"
+              fontSize={16}
               value={code}
               mode="javascript"
               theme="clouds_midnight"
@@ -98,7 +101,7 @@ class App extends Component {
                   ref={ref => {
                     this.frame = ref;
                   }}
-                  height="100%"
+                  height="400"
                   width="100%"
                   frameBorder="0"
                   src={gameUrl}
