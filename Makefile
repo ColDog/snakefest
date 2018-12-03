@@ -1,5 +1,19 @@
 COMMIT := $(shell git rev-parse --short HEAD)
 
+build:
+	(cd api && CGO_ENABLED=0 go build -a -ldflags '-extldflags "-static"' -o build/api .)
+	(cd app && yarn install && yarn build)
+	docker build -t coldog/snakefest:$(COMMIT) .
+.PHONY: build
+
+start-api:
+	cd api && REDIS_URL=localhost:6379 go run main.go vm.go
+.PHONY: start-api
+
+start-app:
+	cd app && yarn start
+.PHONY: start-app
+
 redis:
 	docker run -d --name=redis --rm -it -p 6379:6379 redis
 .PHONY: redis
@@ -7,12 +21,6 @@ redis:
 run:
 	docker run -e REDIS_URL=localhost:6379 --net=host --rm -it -p 8080:8080 coldog/snakefest:$(COMMIT)
 .PHONY: run
-
-build:
-	(cd api && CGO_ENABLED=0 go build -a -ldflags '-extldflags "-static"' -o build/api .)
-	(cd app && yarn install && yarn build)
-	docker build -t coldog/snakefest:$(COMMIT) .
-.PHONY: build
 
 push:
 	docker push coldog/snakefest:$(COMMIT)

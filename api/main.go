@@ -86,7 +86,7 @@ func (s *server) logs(
 	w http.ResponseWriter, r *http.Request, ps httprouter.Params,
 ) {
 	id := ps.ByName("id")
-	log.Printf("[INFO] saving: %s", id)
+	log.Printf("[INFO] reading logs: %s", id)
 
 	logs, err := s.vm.logs(id)
 	if err != nil {

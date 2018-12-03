@@ -5,7 +5,7 @@ import { v4 as uuid } from "uuid";
 import * as api from "./api";
 
 import "brace/mode/javascript";
-import "brace/theme/monokai";
+import "brace/theme/clouds_midnight";
 import "./App.css";
 
 class App extends Component {
@@ -46,7 +46,7 @@ class App extends Component {
 
   onReload = () => {
     if (this.frame) {
-      this.frame.location.reload();
+      this.frame.src = this.frame.src;
     }
   };
 
@@ -56,13 +56,21 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1>SnakeFest</h1>
           <code>{api.snakeUrl(id)}</code>
+          <h1>SnakeFest</h1>
         </header>
 
         <div className="App-row">
+          <div className="App-col App-col-light">
+            <div className="App-col-header App-col-header-light">
+              <p>Learn</p>
+            </div>
+
+            <div>Tutorials and stuff.</div>
+          </div>
+
           <div className="App-col App-col-editor">
-            <div>
+            <div className="App-col-header App-col-header-dark">
               <button className="light" onClick={this.onSave}>
                 Save
               </button>
@@ -72,35 +80,44 @@ class App extends Component {
               height="100%"
               value={code}
               mode="javascript"
-              theme="monokai"
+              theme="clouds_midnight"
               onChange={this.onChange}
             />
           </div>
+
           <div className="App-col App-col-game">
-            <div className="App-col-game-header">
+            <div className="App-col-header App-col-header-light">
               <button onClick={this.onPlay}>Play</button>
-              <button onClick={this.onPlay}>Replay</button>
+              <button onClick={this.onReload}>Replay</button>
             </div>
-            {gameUrl && (
-              <iframe
-                className="App-game"
-                ref={ref => {
-                  this.frame = ref;
-                }}
-                height="400"
-                width="100%"
-                frameBorder="0"
-                src={gameUrl}
-              />
-            )}
+
+            <div className="App-game">
+              {!gameUrl && <h3 className="App-game-empty">Start a game</h3>}
+              {gameUrl && (
+                <iframe
+                  ref={ref => {
+                    this.frame = ref;
+                  }}
+                  height="100%"
+                  width="100%"
+                  frameBorder="0"
+                  src={gameUrl}
+                />
+              )}
+            </div>
 
             <div className="App-game-logs">
-              <pre>
-                <code>{logs}</code>
-              </pre>
+              <div className="App-game-logs-header">Console</div>
+              <div className="App-game-logs-console">
+                <pre>
+                  <code>{logs}</code>
+                </pre>
+              </div>
             </div>
           </div>
         </div>
+
+        <footer className="App-footer" />
       </div>
     );
   }
