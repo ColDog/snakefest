@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import AceEditor from "react-ace";
-import Learn from './Learn';
+import Learn from "./Learn";
 import { v4 as uuid } from "uuid";
 import * as api from "./api";
 

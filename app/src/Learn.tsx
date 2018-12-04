@@ -1,11 +1,11 @@
 import React from "react";
-import md from "snarkdown";
-import basicSnake from "./tutorials/1-basic-snake.md";
+import { Converter } from "showdown";
+import beginner from "./tutorials/1-beginner.md";
 
 async function markdown(url: string) {
   const res = await fetch(url);
   const doc = await res.text();
-  return md(doc);
+  return new Converter().makeHtml(doc);
 }
 
 class Markdown extends React.Component<{ url: string }> {
@@ -22,6 +22,6 @@ class Markdown extends React.Component<{ url: string }> {
   }
 }
 
-const Learn = () => <Markdown url={basicSnake} />;
+const Learn = () => <Markdown url={beginner} />;
 
 export default Learn;

@@ -64,6 +64,8 @@ func (s *server) move(
 func (s *server) save(
 	w http.ResponseWriter, r *http.Request, ps httprouter.Params,
 ) {
+	r.Body = http.MaxBytesReader(w, r.Body, 512)
+
 	id := ps.ByName("id")
 	log.Printf("[INFO] saving: %s", id)
 
