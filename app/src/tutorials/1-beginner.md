@@ -74,3 +74,40 @@ Now let's hit save and try our snake out! Notice how the snake will move in
 random directions as we hit save over and over again, this will cause the snake
 to often hit the wall or maybe even hit itself. But congratulations! You've made
 a basic battlesnake.
+
+#### Deployment
+
+Now, the next step. We need to take the code that we've built here and move this
+into a format where we can deploy it to a service like AWS, Heroku or Zeit.
+
+First step that we'll want to go through is cloning the node starter snake:
+
+```bash
+git clone https://github.com/battlesnakeio/starter-snake-node
+```
+
+Now, open up the README and follow the deployment instructions. Once your basic
+snake is deployed, we now need to take the code in the middle panel and copy
+this into a new file `snake.js`.
+
+Now we export our `move` function at the bottom of the `snake.js` file by
+adding:
+
+```javascript
+module.exports = { move: move }
+```
+
+Inside `index.js` we need to import our `snake.js` file by adding the
+following near the top of the file.
+
+```javascript
+const snake = require('./snake.js')
+```
+Now can change the `/move` endpoint to return the needed move direction:
+
+```javascript
+  // Response data
+  const data = {
+    move: snake.move(request.body),
+  }
+```
