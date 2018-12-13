@@ -54,20 +54,17 @@
 
 .App-game {
   background-color: #fff;
-  min-height: 400px;
   text-align: center;
+  min-height: 500px;
 }
 
 .App-col-game {
-  min-height: 800px;
-  position: relative;
 }
 
 .App-game-logs {
-  height: 500px;
+  min-height: 300px;
   width: 100%;
   color: #eee;
-  position: absolute;
   bottom: 0;
   background-color: #24282a;
   overflow-y: scroll;

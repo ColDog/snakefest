@@ -101,7 +101,7 @@ class App extends Component {
                   ref={ref => {
                     this.frame = ref;
                   }}
-                  height="400"
+                  height="500"
                   width="100%"
                   frameBorder="0"
                   src={gameUrl}
