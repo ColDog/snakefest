@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: snakefest
-  namespace: default
+  namespace: snakefest
 spec:
   type: LoadBalancer
   ports:
@@ -15,7 +15,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: snakefest
-  namespace: default
+  namespace: snakefest
   labels:
     app: snakefest
 spec:
@@ -48,7 +48,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: snakefest-redis
-  namespace: default
+  namespace: snakefest
 spec:
   ports:
   - port: 6379
@@ -60,7 +60,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: snakefest-redis
-  namespace: default
+  namespace: snakefest
   labels:
     app: snakefest-redis
 spec:
